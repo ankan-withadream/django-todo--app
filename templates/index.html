@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block base_main %}
+{% block title %}
+    <title>WElcome</title>
+            <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.0.2/tailwind.min.css" rel="stylesheet">
+{% endblock title %}
+
+{% block body %}
+<div class="container text-center my-7">
+    {% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+</div>
+    <div class="container-lg p-7 bg-green-200">
+        <div class="content-center text-center">
+<h2 class="text-center mb-6">Welcome to Todos</h2>
+    <a class="bg-green-600 text-gray-800 hover:bg-green-300 py-2 px-4 rounded-md mt-6" href="/signup">Signup</a>
+    <a class="bg-green-600 text-gray-800 hover:bg-green-300 py-2 px-4 rounded-md mt-6" href="/login">Login</a>
+    <a class="bg-green-600 text-gray-800 hover:bg-green-300 py-2 px-4 rounded-md mt-6" href="/todos">Todos</a>
+    <a class="bg-green-600 text-gray-800 hover:bg-green-300 py-2 px-4 rounded-md mt-6" href="/logout">Logout</a>
+
+
+        </div>
+    </div>
+
+{% endblock body %}
+{% endblock base_main %}

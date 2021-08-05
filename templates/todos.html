@@ -1,0 +1,123 @@
+{% extends 'base.html' %}
+{% block base_main %}
+{% block title %}
+    <title>Welcome</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.0.2/tailwind.min.css" rel="stylesheet">
+    <style>
+        table, th, td{
+            padding: 20px;
+            border: 2px solid black;
+            text-align: center;
+            
+            
+        }
+        a, button{
+            background-color: rgb(66, 201, 156);
+            border-radius: 18px;
+            padding: 2px 8px;
+            margin: 0px 6px 0px 6px;
+        }
+        a:hover, button:hover{
+            background-color: rgb(147, 252, 217);
+        }
+        table {
+            /* float: left; */
+            /* overflow: hidden; */
+            background-color: rgb(131, 250, 200);
+            margin-left:auto; 
+            margin-right:auto;
+        }
+        body {
+            background-color: A7F3D0
+        }
+    </style>
+{% endblock title %}
+
+{% block body %}
+
+<div class="container text-center my-7">
+    {% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+</div>
+
+<div class="container-lg p-7 bg-green-200">
+    <div class="content-center text-center">
+<h2 class="text-center mb-6">Welcome to Todos</h2>
+<a class="bg-green-600 text-gray-800 hover:bg-green-300 py-2 px-4 rounded-md mt-6" href="/signup">Signup</a>
+<a class="bg-green-600 text-gray-800 hover:bg-green-300 py-2 px-4 rounded-md mt-6" href="/login">Login</a>
+<a class="bg-green-600 text-gray-800 hover:bg-green-300 py-2 px-4 rounded-md mt-6" href="/todos">Todos</a>
+<a class="bg-green-600 text-gray-800 hover:bg-green-300 py-2 px-4 rounded-md mt-6" href="/logout">Logout</a>
+
+
+    </div>
+</div>
+
+    <div class=" container bg-green-200 m-10 ">
+<table>
+    <thead>
+      <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Todo title</th>
+        <th scope="col">Description</th>
+        <th scope="col"> </th>
+      </tr>
+    </thead>
+    <tbody>
+        {% for i in todos %}
+            
+        <tr>
+            
+            {% if updating %}
+            {% if i.todo_name == tdun %}
+                <td>{{ forloop.counter}}</td>                
+                <form action="/update/{{i.todo_name}}" method="post">
+                {% csrf_token %}
+                <td><input type="text" name="todo_name" placeholder="New Title ?" value={{i.todo_name}}></td>                
+                <td><input type="text" name="todo_desc" placeholder="New description ?" value={{i.todo_desc}}></td>
+                <td><button type="submit">Update</button></td> 
+                </form>
+            {% else %}
+            <td>{{ forloop.counter }}</td>
+        <td>{{i.todo_name}}</td>
+            <td>{{i.todo_desc}}</td>
+            <td>
+                <a href="/update/{{i.todo_name}}">update</button>
+                <a href="/delete/{{i.todo_name}}">Delete</button>
+            </td>
+            {% endif %}
+            {% else %}
+            <td>{{ forloop.counter }}</td>
+        <td>{{i.todo_name}}</td>
+            <td>{{i.todo_desc}}</td>
+            <td>
+                <a href="/update/{{i.todo_name}}">update</button>
+                <a href="/delete/{{i.todo_name}}">Delete</button>
+            </td>
+                                
+            {% endif %}
+
+        </tr>
+        {% endfor %}
+        {% if not updating %}
+
+        <tr>
+            <form action="/todos" method="post">
+                {% csrf_token %}
+            <td>&</td>
+            <td><input type="text" name="title" placeholder="Title ?"></td>
+            <td><input type="text" name="desc" placeholder="Description ?"></td>
+            <td><button type="submit">Add task</button></td>
+            </form>
+        </tr>
+            
+        {% endif %}
+    </tbody>
+  </table>
+</div>
+{% endblock body %}
+{% endblock base_main %}
